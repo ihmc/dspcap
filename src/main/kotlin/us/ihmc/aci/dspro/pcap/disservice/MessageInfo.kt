@@ -1,6 +1,7 @@
 package us.ihmc.aci.dspro.pcap.disservice
 
 import io.pkts.buffer.Buffer
+import us.ihmc.aci.dspro.pcap.readString
 
 /**
  * Created by gbenincasa on 10/31/17.
@@ -26,16 +27,16 @@ class MessageInfo(private var buf: Buffer) {
 
     init {
         val isChunk = buf.readUnsignedByte().toInt() == 1
-        group = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
-        publisher = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
+        group = readString(buf, buf.readUnsignedShort())
+        publisher = readString(buf, buf.readUnsignedShort())
         sequenceId = buf.readUnsignedInt()
         chunkId = buf.readUnsignedByte()
-        objectId = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
-        instanceId = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
-        referredObjectId = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
+        objectId = readString(buf, buf.readUnsignedShort())
+        instanceId = readString(buf,buf.readUnsignedShort())
+        referredObjectId = readString(buf, buf.readUnsignedShort())
         annotationMetadata = buf.readBytes(buf.readUnsignedInt().toInt())
         tag = buf.readUnsignedShort()
-        mimeType = String(buf.readBytes(buf.readUnsignedShort()).rawArray)
+        mimeType = readString(buf, buf.readUnsignedShort())
         totalLength = buf.readUnsignedInt()
         fragmentOffset = buf.readUnsignedInt()
         fragmentLength = buf.readUnsignedInt()
