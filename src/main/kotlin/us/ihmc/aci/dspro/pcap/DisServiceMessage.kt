@@ -11,9 +11,9 @@ import java.text.ParseException
  */
 data class DisServiceMessage(private var buf: Buffer) : Message {
 
-    constructor(byteArr: ByteArray): this(Buffers.wrap(byteArr))
+    constructor(byteArr: ByteArray) : this(Buffers.wrap(byteArr))
 
-    enum class Type (val code: Short){
+    enum class Type(val code: Short) {
 
         Unknown(0x00),
         Data(0x01),
@@ -62,7 +62,7 @@ data class DisServiceMessage(private var buf: Buffer) : Message {
         targetNodeId = readString(buf, buf.readUnsignedByte())
         senderNodeId = readString(buf, buf.readUnsignedByte())
         sessionId = readString(buf, buf.readUnsignedByte())
-        body = when(type) {
+        body = when (type) {
             Type.Data -> us.ihmc.aci.dspro.pcap.disservice.Data(buf)
             Type.CtrlToCtrlMessage -> us.ihmc.aci.dspro.pcap.disservice.Controller(buf)
             else -> Empty(buf)
@@ -71,7 +71,7 @@ data class DisServiceMessage(private var buf: Buffer) : Message {
 
     override fun toString(): String = "DisService Message $type from <$senderNodeId> for <$targetNodeId> in session <$sessionId>"
     fun isEmpty(): Boolean = body is Empty
-    override fun getMessage(protocol: Protocol): Message = when(protocol) {
+    override fun getMessage(protocol: Protocol): Message = when (protocol) {
         Protocol.DSPro -> if (isDSProMessage(this)) DSProMessage(this.body as Data) else this
         else -> this
     }

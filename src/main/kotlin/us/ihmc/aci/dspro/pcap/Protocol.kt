@@ -19,5 +19,5 @@ fun isDSProMessage(pkt: DisServiceMessage): Boolean = pkt.body is Data
         && (pkt.body as Data).msgInfo.group.startsWith("DSPro")
 
 fun <T> readString(buf: Buffer, len: T): String
-        where T: Comparable<T>, T: Number
+        where T : Comparable<T>, T : Number
         = if (len.toInt() > 0) buf.readBytes(len.toInt()).array.toString(Charset.defaultCharset()) else ""

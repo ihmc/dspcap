@@ -14,7 +14,7 @@ data class DSProMessage(private var ds: Data) : Message {
     val body: Body
 
     init {
-        if(!ds.msgInfo.isDSProMessage()) {
+        if (!ds.msgInfo.isDSProMessage()) {
             throw ParseException("Could not parse as " + DSProMessage::class.simpleName, ds.data.readerIndex)
         }
         if (!ds.msgInfo.isComplete()) {
