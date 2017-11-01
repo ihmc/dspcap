@@ -25,6 +25,9 @@ class MessageInfo(private var buf: Buffer) {
     val priority: Short
     val acknowledgment: Boolean
 
+    val referredObject: ByteArray
+    val totalNumberOfChunks: Short
+
     init {
         val isChunk = buf.readUnsignedByte().toInt() == 1
         group = readString(buf, buf.readUnsignedShort())
@@ -44,6 +47,16 @@ class MessageInfo(private var buf: Buffer) {
         priority = buf.readUnsignedByte()
         buf.readBytes(8);   // Expiration
         acknowledgment = buf.readUnsignedByte().toInt() == 1
+
+        if (isChunk) {
+            referredObject = ByteArray(0)
+            totalNumberOfChunks = buf.readUnsignedByte()
+        } else {
+            referredObject = buf.readBytes(buf.readUnsignedShort()).array
+            buf.readUnsignedByte()
+            buf.readUnsignedInt()
+            totalNumberOfChunks = 0
+        }
     }
 
     fun isComplete(): Boolean = fragmentLength == totalLength

@@ -12,13 +12,14 @@ class Data(private var buf: Buffer) : Body {
     val data: Buffer
 
     init {
-        val isChunk = buf.readUnsignedByte().toInt() != 0
-        val sendingComplete = buf.readUnsignedByte().toInt() != 0
-        val hasStats = buf.readUnsignedByte().toInt() != 0
-        val isRepair = buf.readUnsignedByte().toInt() != 0
-        val hasSendRate = buf.readUnsignedByte().toInt() != 0
-        val hasRateEstimate = buf.readUnsignedByte().toInt() != 0
-        val doNotForward = buf.readUnsignedByte().toInt() != 0
+        val bitmap = buf.readUnsignedByte().toInt()
+        val isChunk = (bitmap and 0x0001) != 0
+        val sendingComplete = (bitmap and 0x0002) != 0
+        val hasStats = (bitmap and 0x0004) != 0
+        val isRepair = (bitmap and 0x0008) != 0
+        val hasSendRate = (bitmap and 0x0010) != 0
+        val hasRateEstimate = (bitmap and 0x0020) != 0
+        val doNotForward = (bitmap and 0x0040) != 0
         val rateEstimate = if (hasSendRate || hasRateEstimate) buf.readUnsignedInt() else 0
         msgInfo = MessageInfo(buf)
         data = buf.readBytes(msgInfo.fragmentLength.toInt())
