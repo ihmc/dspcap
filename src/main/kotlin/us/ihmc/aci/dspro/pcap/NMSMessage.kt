@@ -69,11 +69,9 @@ data class NMSMessage(private var buf: Buffer) : Message {
         checksum = swapUnsignedShort(buf.readUnsignedShort())
         queueLength = if (version == Version.V2) buf.readUnsignedByte() else 0
         val metadataLen = swapUnsignedShort(buf.readUnsignedShort())
-        println(java.lang.Integer.toHexString(metadataLen))
         val dataLen = swapUnsignedShort(buf.readUnsignedShort())
-        println(java.lang.Integer.toHexString(dataLen))
-        metadata = buf.slice(buf.readerIndex, buf.readerIndex+metadataLen)
-        data = buf.slice(buf.readerIndex, buf.readerIndex+dataLen)
+        metadata = buf.readBytes(metadataLen)
+        data = buf.readBytes(dataLen)
     }
 
     override fun toString(): String = "NMS Message $version: $chunkType"

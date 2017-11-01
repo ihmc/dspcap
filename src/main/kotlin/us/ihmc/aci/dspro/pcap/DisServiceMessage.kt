@@ -3,6 +3,7 @@ package us.ihmc.aci.dspro.pcap
 import io.pkts.buffer.Buffer
 import io.pkts.buffer.Buffers
 import us.ihmc.aci.dspro.pcap.disservice.Data
+import java.nio.charset.Charset
 import java.text.ParseException
 
 /**
@@ -58,17 +59,17 @@ data class DisServiceMessage(private var buf: Buffer) : Message {
     init {
         type = Type.fromShort(buf.readUnsignedByte())
                 ?: throw ParseException("Could not parse chunk type", buf.readerIndex)
-        targetNodeId = String(buf.readBytes(buf.readUnsignedByte().toInt()).rawArray)
-        senderNodeId = String(buf.readBytes(buf.readUnsignedByte().toInt()).rawArray)
-        sessionId = String(buf.readBytes(buf.readUnsignedByte().toInt()).rawArray)
-        when(type) {
-            Type.Data -> body = us.ihmc.aci.dspro.pcap.disservice.Data(buf)
-            Type.CtrlToCtrlMessage -> body = us.ihmc.aci.dspro.pcap.disservice.Controller(buf)
-            else -> body = Empty(buf)
+        targetNodeId = readString(buf, buf.readUnsignedByte())
+        senderNodeId = readString(buf, buf.readUnsignedByte())
+        sessionId = readString(buf, buf.readUnsignedByte())
+        body = when(type) {
+            Type.Data -> us.ihmc.aci.dspro.pcap.disservice.Data(buf)
+            Type.CtrlToCtrlMessage -> us.ihmc.aci.dspro.pcap.disservice.Controller(buf)
+            else -> Empty(buf)
         }
     }
 
-    override fun toString(): String = "DisService Message $type"
+    override fun toString(): String = "DisService Message $type from <$senderNodeId> for <$targetNodeId> in session <$sessionId>"
     fun isEmpty(): Boolean = body is Empty
     override fun getMessage(protocol: Protocol): Message = when(protocol) {
         Protocol.DSPro -> if (isDSProMessage(this)) DSProMessage(this.body as Data) else this
