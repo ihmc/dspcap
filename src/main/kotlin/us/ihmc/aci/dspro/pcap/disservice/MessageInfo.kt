@@ -32,7 +32,7 @@ class MessageInfo(private var buf: Buffer) {
         sequenceId = buf.readUnsignedInt()
         chunkId = buf.readUnsignedByte()
         objectId = readString(buf, buf.readUnsignedShort())
-        instanceId = readString(buf,buf.readUnsignedShort())
+        instanceId = readString(buf, buf.readUnsignedShort())
         referredObjectId = readString(buf, buf.readUnsignedShort())
         annotationMetadata = buf.readBytes(buf.readUnsignedInt().toInt())
         tag = buf.readUnsignedShort()
