@@ -17,6 +17,7 @@ fun isDisServicePacket(pkt: NMSMessage): Boolean = pkt.chunkType == NMSMessage.T
 
 fun isDSProMessage(pkt: DisServiceMessage): Boolean = pkt.body is Data
         && (pkt.body as Data).msgInfo.group.startsWith("DSPro")
+        && (pkt.body as Data).msgInfo.isComplete()
 
 fun <T> readString(buf: Buffer, len: T): String
         where T : Comparable<T>, T : Number
