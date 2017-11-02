@@ -9,7 +9,7 @@ import java.text.ParseException
 /**
  * Created by gbenincasa on 10/31/17.
  */
-data class DisServiceMessage(private var buf: Buffer) : Message {
+data class DisServiceMessage(private val buf: Buffer) : Message {
 
     constructor(byteArr: ByteArray) : this(Buffers.wrap(byteArr))
 
