@@ -7,5 +7,5 @@ byte[] udpPacketPayload = ...;
 Message msg = NMSMessage(udpPacketPayload)
   .getMessage(Protocol.DisService)
   .getMessage(Protocol.DSPro);
-println(msg);
+System.out.println(msg);
 ```
