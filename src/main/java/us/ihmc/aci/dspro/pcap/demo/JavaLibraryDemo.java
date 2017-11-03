@@ -20,7 +20,9 @@ class JavaLibraryDemo
     }
 
     private void parse() {
-        Message msg = new NMSMessage(udpPacketPayload, true)
+        boolean hasChecksum = true; // Set this to false for traces prior to September
+                                    // 2017 (set it to false for AB17 traces)
+        Message msg = new NMSMessage(udpPacketPayload, hasChecksum)
                 .getMessage(Protocol.DisService)
                 .getMessage(Protocol.DSPro);
         System.out.println(msg);
