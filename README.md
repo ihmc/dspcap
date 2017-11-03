@@ -1,5 +1,6 @@
 # DSPro PCAP
-Java Library to parse DSPro pcap traces.
+Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-Overview) pcap traces.
+Currently only NMS, DisService data messages and DSPro metadata messages are parsed completely.
 
 ## Build
 Do a `gradlew.bat fatjar` from the `dspcap` directory.  This will create a single .jar file containing
