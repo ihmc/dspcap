@@ -13,3 +13,4 @@ Message msg = NMSMessage(udpPacketPayload)
   .getMessage(Protocol.DSPro);
 System.out.println(msg);
 ```
+Also look at the [demo](src/main/java/us/ihmc/aci/dspro/pcap/demo/JavaLibraryDemo.java)
