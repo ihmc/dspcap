@@ -1,4 +1,5 @@
 # DSPro PCAP
+[![Release](https://jitpack.io/v/User/Repo.svg)](https://jitpack.io/#ihmc/dspcap)
 Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-Overview) pcap traces.
 Currently only NMS, DisService data messages and DSPro metadata messages are parsed completely.
 
