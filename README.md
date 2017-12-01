@@ -1,5 +1,7 @@
 # DSPro PCAP
-[![Release](https://jitpack.io/v/ihmc/Repo.svg)](https://jitpack.io/#ihmc/dspcap)
+[![](https://jitpack.io/v/ihmc/dspcap.svg)](https://jitpack.io/#ihmc/dspcap)
+
+
 Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-Overview) pcap traces.
 Currently only NMS, DisService data messages and DSPro metadata messages are parsed completely.
 
@@ -7,37 +9,37 @@ Currently only NMS, DisService data messages and DSPro metadata messages are par
 ### Gradle
 Add it in your root build.gradle at the end of repositories:
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 Add the dependency
 ```
-	dependencies {
-	        compile 'com.github.ihmc:dspcap:v0.0.2-alpha'
-	}
+dependencies {
+        compile 'com.github.ihmc:dspcap:v0.0.2-alpha'
+}
 ```
 
 ### Maven
 Add the JitPack repository to your build file 
 ```
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+<repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+</repositories>
 ```
 Add the dependency
 ```
-	<dependency>
-	    <groupId>com.github.ihmc</groupId>
-	    <artifactId>dspcap</artifactId>
-	    <version>v0.0.2-alpha</version>
-	</dependency>
+<dependency>
+    <groupId>com.github.ihmc</groupId>
+    <artifactId>dspcap</artifactId>
+    <version>v0.0.2-alpha</version>
+</dependency>
 ```
 ###
 Alternatively, download the jar from [here](https://sharebox.ihmc.us/s/XSbW6MZ7UEZMy3i)
