@@ -12,8 +12,7 @@ data class Metadata(private val buf: Buffer) : Body {
 
     init {
         val uncompressedStringLength = buf.readUnsignedInt()
-            buf.readInt()  // TODO: workaround because readUnsignedInt() does not increment index
-        metadata = zdecompress(buf.readBytes(buf.readableBytes.toInt()), uncompressedStringLength.toInt())
+        metadata = zdecompress(buf.readBytes(buf.readableBytes), uncompressedStringLength.toInt())
     }
 
     override fun toString(): String = metadata
