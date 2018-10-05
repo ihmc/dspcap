@@ -16,8 +16,8 @@ enum class Protocol {
 fun isDisServicePacket(pkt: NMSMessage): Boolean = pkt.chunkType == NMSMessage.Type.DataMsgComplete
 
 fun isDSProMessage(pkt: DisServiceMessage): Boolean = pkt.body is Data
-        && (pkt.body as Data).msgInfo.group.startsWith("DSPro")
-        && (pkt.body as Data).msgInfo.isComplete()
+        && pkt.body.msgInfo.group.startsWith("DSPro")
+        && pkt.body.msgInfo.isComplete()
 
 fun <T> readString(buf: Buffer, len: T): String
         where T : Comparable<T>, T : Number
