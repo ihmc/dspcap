@@ -6,7 +6,4 @@ import us.ihmc.aci.dspro.pcap.Body
 /**
  * Created by gbenincasa on 10/31/17.
  */
-class Controller(private var buf: Buffer) : Body {
-
-
-}
+class Controller(private val buf: Buffer) : Body {}
