@@ -82,7 +82,7 @@ data class NMSMessage(private val buf: Buffer, private val hasChecksum: Boolean 
 
     override fun toString(): String = "NMS Message $version: $chunkType"
     override fun getMessage(protocol: Protocol): Message = when (protocol) {
-        Protocol.DisService -> if (isDisServicePacket(this)) DisServiceMessage(data) else this
+        Protocol.DisService -> if (isDisServicePacket(this)) DisServiceMessage.getDisServiceMessage(data) else this
         else -> this
     }
 }

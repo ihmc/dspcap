@@ -9,9 +9,14 @@ import java.text.ParseException
 /**
  * Created by gbenincasa on 10/31/17.
  */
-data class DisServiceMessage(private val buf: Buffer) : Message {
 
-    constructor(byteArr: ByteArray) : this(Buffers.wrap(byteArr))
+
+data class DisServiceMessage(
+        private val targetNodeId: String,
+        private val senderNodeId: String,
+        private val sessionId: String,
+        val body: Body,
+        private val type: Type = Type.Data) : Message {
 
     enum class Type(val code: Short) {
 
@@ -50,23 +55,25 @@ data class DisServiceMessage(private val buf: Buffer) : Message {
         }
     }
 
-    val type: Type
-    val targetNodeId: String
-    val senderNodeId: String
-    val sessionId: String
-    val body: Body
+    companion object {
 
-    init {
-        val b = buf.readUnsignedByte()
-        type = Type.fromShort(b)
-                ?: throw ParseException("Could not parse chunk type $b", buf.readerIndex)
-        targetNodeId = readString(buf, buf.readUnsignedByte())
-        senderNodeId = readString(buf, buf.readUnsignedByte())
-        sessionId = readString(buf, buf.readUnsignedByte())
-        body = when (type) {
-            Type.Data -> us.ihmc.aci.dspro.pcap.disservice.Data(buf)
-            Type.CtrlToCtrlMessage -> us.ihmc.aci.dspro.pcap.disservice.Controller(buf)
-            else -> Empty(buf)
+        fun getDisServiceDataMessage(data: Data) = DisServiceMessage("",
+                data.msgInfo.publisher, "", data, Type.Data)
+
+        fun getDisServiceMessage(buf: Buffer): DisServiceMessage {
+            val b = buf.readUnsignedByte()
+            val type = Type.fromShort(b)
+                    ?: throw ParseException("Could not parse chunk type $b", buf.readerIndex)
+            val targetNodeId = readString(buf, buf.readUnsignedByte())
+            val senderNodeId = readString(buf, buf.readUnsignedByte())
+            val sessionId = readString(buf, buf.readUnsignedByte())
+            val body = when (type) {
+                Type.Data -> us.ihmc.aci.dspro.pcap.disservice.Data.getData(buf)
+                Type.CtrlToCtrlMessage -> us.ihmc.aci.dspro.pcap.disservice.Controller(buf)
+                else -> Empty(buf)
+            }
+
+            return DisServiceMessage(targetNodeId, senderNodeId, sessionId, body, type)
         }
     }
 
