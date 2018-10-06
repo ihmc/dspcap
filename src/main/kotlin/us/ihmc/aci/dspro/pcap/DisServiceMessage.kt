@@ -57,8 +57,9 @@ data class DisServiceMessage(private val buf: Buffer) : Message {
     val body: Body
 
     init {
-        type = Type.fromShort(buf.readUnsignedByte())
-                ?: throw ParseException("Could not parse chunk type", buf.readerIndex)
+        val b = buf.readUnsignedByte()
+        type = Type.fromShort(b)
+                ?: throw ParseException("Could not parse chunk type $b", buf.readerIndex)
         targetNodeId = readString(buf, buf.readUnsignedByte())
         senderNodeId = readString(buf, buf.readUnsignedByte())
         sessionId = readString(buf, buf.readUnsignedByte())
