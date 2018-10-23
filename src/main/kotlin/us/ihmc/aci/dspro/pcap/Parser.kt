@@ -47,7 +47,6 @@ internal fun Observable<Message>.tracks() = filter { it.getType() == Protocol.DS
         .filter { it.isMetadata }
         .map { it.body as us.ihmc.aci.dspro.pcap.dspro.Metadata }
         .filter{ it.metadata["Description"] == "x-dspro/x-soi-track-info" }
-        .map { it.metadata.toCSV() }
 
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
@@ -57,9 +56,10 @@ fun main(args: Array<String>) {
     var i = 0
     for (filename in args) {
         println("Reading, $filename")
-        val o = getObserver(filename)
+        getObserver(filename)
                 .map { it.getMessage(Protocol.DisService).getMessage(Protocol.DSPro) }
                 .tracks()
+                .map { it.metadata.toCSV() }
                 .subscribe {
                     println("$it")
                 }
