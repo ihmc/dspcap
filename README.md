@@ -13,7 +13,7 @@ Message msg = NMSMessage(udpPacketPayload)
   .getMessage(Protocol.DSPro);
 System.out.println(msg);
 ```
-Also look at the [demo](src/main/java/us/ihmc/aci/dspro/pcap/demo/JavaLibraryDemo.java) or at the [Parser](src/main/java/us/ihmc/aci/dspro/pcap/Parser.kt) application.
+Also look at the [demo](src/main/java/us/ihmc/aci/dspro/pcap/demo/JavaLibraryDemo.java) or at the [Parser](src/main/kotlin/us/ihmc/aci/dspro/pcap/Parser.kt) application.
 
 ## Build
 Do a `gradlew.bat fatjar` from the `dspcap` directory.  This will create a single .jar file containing
