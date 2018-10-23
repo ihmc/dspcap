@@ -7,4 +7,4 @@ import io.pkts.buffer.Buffer
  */
 interface Body
 
-class Empty(private var buf: Buffer) : Body {}
+class Empty(private var buf: Buffer) : Body
