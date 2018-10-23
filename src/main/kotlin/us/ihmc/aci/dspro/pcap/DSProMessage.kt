@@ -12,6 +12,7 @@ data class DSProMessage(private val ds: Data) : Message {
     val isChunk: Boolean
     val isMetadata: Boolean
     val body: Body
+    val len: Int
 
     init {
         if (!ds.msgInfo.isDSProMessage()) {
@@ -21,29 +22,34 @@ data class DSProMessage(private val ds: Data) : Message {
             throw ParseException("Could not parse DisService fragment as "
                     + DSProMessage::class.simpleName, ds.data.readerIndex)
         }
+        len = ds.msgInfo.fragmentLength.toInt()
         var offset = 0
         isChunk = (ds.msgInfo.group.endsWith("[od]") || ds.msgInfo.group.endsWith("cu"));
         isMetadata = if (isChunk) false else {
             offset = 1
             ds.data.readUnsignedByte().toInt() == 1
         }
-        val buf = ds.data.readBytes(ds.msgInfo.fragmentLength.toInt() - offset)
+        val buf = ds.data.readBytes(len - offset)
         body = if (isMetadata) us.ihmc.aci.dspro.pcap.dspro.Metadata(buf) else Empty(ds.data)
     }
 
     override fun toString(): String {
         fun getType(): String {
-            return if (isChunk) "Chunked"
-            else if (isMetadata) "Metadata"
-            else "Data"
+            return when {
+                isChunk -> "Chunked"
+                isMetadata -> "Metadata"
+                else -> "Data"
+            }
         }
         var msg = "DSPro ${getType()} Message.\n"
         if (isMetadata) {
-            msg += body.toString()
+            msg += body
         }
         return msg
     }
 
     fun isEmpty(): Boolean = body is Empty
     override fun getMessage(protocol: Protocol): Message = this
+
+    override fun getType() = Protocol.DSPro
 }

@@ -13,4 +13,5 @@ interface Message {
      * The message itself will be returned otherwise.
      */
     fun getMessage(protocol: Protocol): Message
+    fun getType(): Protocol
 }

@@ -85,4 +85,6 @@ data class NMSMessage(private val buf: Buffer, private val hasChecksum: Boolean 
         Protocol.DisService -> if (isDisServicePacket(this)) DisServiceMessage.getDisServiceMessage(data) else this
         else -> this
     }
+
+    override fun getType() = Protocol.NMS
 }

@@ -83,4 +83,6 @@ data class DisServiceMessage(
         Protocol.DSPro -> if (isDSProMessage(this)) DSProMessage(this.body as Data) else this
         else -> this
     }
+
+    override fun getType() = Protocol.DisService
 }
