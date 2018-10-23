@@ -9,7 +9,6 @@ import java.nio.charset.Charset
  */
 fun zdecompress(buf: Buffer, decompressedBufLen: Int): String {
     val zlibEncodedMetadata = buf.array
-    println(Hex.encodeHexString(zlibEncodedMetadata))
     val decompresser = java.util.zip.Inflater()
     try {
         decompresser.setInput(zlibEncodedMetadata, 0, zlibEncodedMetadata.size)
