@@ -1,21 +1,40 @@
 package us.ihmc.aci.dspro.pcap.dspro
 
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Parser
 import io.pkts.buffer.Buffer
+import org.slf4j.LoggerFactory
 import us.ihmc.aci.dspro.pcap.Body
 import us.ihmc.aci.dspro.pcap.zdecompress
+import java.util.*
 
 /**
  * Created by gbenincasa on 10/31/17.
  */
 data class Metadata(private val buf: Buffer) : Body {
-    val metadata: String
+    val metadata: JsonObject
+
+    companion object {
+        val LOGGER = LoggerFactory.getLogger(javaClass)
+    }
 
     init {
         val uncompressedStringLength = buf.readUnsignedInt()
-        metadata = zdecompress(buf.readBytes(buf.readableBytes), uncompressedStringLength.toInt())
+        val sMetadata = zdecompress(buf.readBytes(buf.readableBytes), uncompressedStringLength.toInt())
+        metadata = Parser().parse(StringBuilder(sMetadata)) as JsonObject
+        if(metadata["Application_Metadata_Format"].toString().toLowerCase().endsWith("base64")) {
+            try {
+                val sAppMetadata = String(Base64.getDecoder()
+                        .decode(metadata["Application_Metadata"].toString()), Charsets.UTF_8)
+                metadata["Application_Metadata"] = Parser().parse(StringBuilder(sAppMetadata)) as JsonObject
+            }
+            catch(e: Exception) {
+                LOGGER.warn("${e.message} ${metadata["Application_Metadata"].toString()}")
+            }
+        }
     }
 
-    override fun toString(): String = metadata
+    override fun toString() = metadata.toJsonString(prettyPrint = true)
 }
 
 enum class MetadataElement {
