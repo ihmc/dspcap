@@ -1,5 +1,5 @@
 # DSPro PCAP
-Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-Overview) pcap traces.
+Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-Overview) serialized DSPro messages from pcap traces or DSPro SQLite database.
 Currently only NMS, DisService data messages and DSPro metadata messages are parsed completely.
 
 ## Getting Started
@@ -13,7 +13,7 @@ Message msg = NMSMessage(udpPacketPayload)
   .getMessage(Protocol.DSPro);
 System.out.println(msg);
 ```
-Also look at the [demo](src/main/java/us/ihmc/aci/dspro/pcap/demo/JavaLibraryDemo.java)
+Also look at the [demo](src/main/java/us/ihmc/aci/dspro/pcap/demo/JavaLibraryDemo.java) or at the [Parser](src/main/java/us/ihmc/aci/dspro/pcap/Parser.kt) application.
 
 ## Build
 Do a `gradlew.bat fatjar` from the `dspcap` directory.  This will create a single .jar file containing
