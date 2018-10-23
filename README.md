@@ -3,7 +3,7 @@ Kotlin/Java library to parse [DSPro](https://github.com/ihmc/nomads/wiki/DSPro-O
 Currently only NMS, DisService data messages and DSPro metadata messages are parsed completely.
 
 ## Getting Started
-Import the library using JitPack [![](https://jitpack.io/v/ihmc/dspcap.svg)](https://jitpack.io/#ihmc/dspcap), or by dowloanding the jar manualy from [here](https://sharebox.ihmc.us/s/XSbW6MZ7UEZMy3i)
+Import the library using JitPack [![](https://jitpack.io/v/ihmc/dspcap.svg)](https://jitpack.io/#ihmc/dspcap), or by dowloanding the jar manualy from [here](https://github.com/ihmc/dspcap/releases/download/v0.0.3-alpha/dspcap-0.0.3-alpha.jar).
 
 ### Example: parse packet
 ```
